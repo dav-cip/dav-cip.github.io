@@ -8,14 +8,17 @@ export default function About() {
         "TypeScript",
         "HTML",
         "CSS",
-        "SQL"
+        "SQL",
+        "Python"
     ];
 
     const tools = [
         "React",
         "Git",
         "GitHub",
-        "VS Code"
+        "VS Code",
+        "SQLite",
+        "FastAPI"
     ];
 
     return (
