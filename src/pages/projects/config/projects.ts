@@ -26,7 +26,7 @@ const projectConfig: ProjectConfig[] = [
         ]
     },
     {
-        name: "my-website",
+        name: "dav-cip.github.io",
         description:
             "A personal developer portfolio showcasing my projects, technical skills, and experience through a responsive and modern web experience.",
         featured: false,
