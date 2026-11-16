@@ -2,7 +2,7 @@
 
 My personal portfolio website: a place to introduce myself, show my technical skills, and share the projects I'm building.
 
-**Live site:** [dav-cip.github.io/my-website](https://dav-cip.github.io/my-website/)
+**Live site:** [dav-cip.github.io](https://dav-cip.github.io/)
 
 ## About
 
@@ -21,14 +21,14 @@ I'm a Computer Science student at CEGEP who enjoys programming, building applica
 
 ## Tech Stack
 
-| Area       | Tools                                  |
-| ---------- | -------------------------------------- |
-| Framework  | React 19, React Router 7               |
-| Language   | TypeScript                             |
-| Build tool | Vite                                   |
+| Area       | Tools                                    |
+| ---------- | ---------------------------------------- |
+| Framework  | React 19, React Router 7                 |
+| Language   | TypeScript                               |
+| Build tool | Vite                                     |
 | Styling    | Plain CSS (one stylesheet per component) |
-| Linting    | ESLint with typescript-eslint          |
-| Hosting    | GitHub Pages via GitHub Actions        |
+| Linting    | ESLint with typescript-eslint            |
+| Hosting    | GitHub Pages via GitHub Actions          |
 
 ## Getting Started
 
@@ -36,8 +36,8 @@ I'm a Computer Science student at CEGEP who enjoys programming, building applica
 
 ```bash
 # Clone the repository
-git clone https://github.com/dav-cip/my-website.git
-cd my-website
+git clone https://github.com/dav-cip/dav-cip.github.io.git
+cd dav-cip.github.io
 
 # Install dependencies
 npm install
@@ -46,7 +46,7 @@ npm install
 npm run dev
 ```
 
-The site will be available at the local URL Vite prints. Because the site is served from `/my-website/`, open that base path (for example `http://localhost:5173/my-website/`).
+The site will be available at the local URL Vite prints, usually `http://localhost:5173/`.
 
 ### Scripts
 
@@ -60,7 +60,7 @@ The site will be available at the local URL Vite prints. Because the site is ser
 ## Project Structure
 
 ```
-my-website/
+dav-cip.github.io/
 ├── .github/workflows/deploy.yml   # GitHub Pages deployment
 ├── public/
 │   ├── 404.html                   # SPA redirect for GitHub Pages
@@ -105,7 +105,7 @@ The Projects page only shows repositories that have an entry in `src/pages/proje
 
 3. Push to `main`. The repository details come from GitHub automatically, and the site redeploys.
 
-> **Note:** archived and private repositories are excluded. The GitHub API is unauthenticated, so it is subject to rate limits; if it is exceeded, the Projects page shows an error message instead.
+> **Note:** archived and private repositories are excluded. If a repository is renamed, update its `name` in the config too, or its card will disappear. The GitHub API is unauthenticated, so it is subject to rate limits; if the limit is exceeded, the Projects page shows an error message instead.
 
 ## Deployment
 
@@ -115,7 +115,15 @@ The site deploys automatically through GitHub Actions (`.github/workflows/deploy
 2. The workflow installs dependencies with `npm ci` and runs `npm run build`.
 3. The `dist/` folder is published to GitHub Pages.
 
-To deploy from your own fork, enable **Settings → Pages → Source: GitHub Actions** and update the `base` value in `vite.config.ts` to match your repository name.
+The site is served from the root of the user domain, so the repository is named `dav-cip.github.io` and the Vite `base` in `vite.config.ts` is `'/'`.
+
+To deploy your own copy:
+
+1. Name the repository `<your-username>.github.io`.
+2. Enable **Settings → Pages → Source: GitHub Actions**.
+3. Keep `base: '/'` in `vite.config.ts`, and update the URLs in `index.html` and `public/404.html` to your own.
+
+If you instead host it under a project path (for example `<username>.github.io/my-site/`), set `base` to `'/my-site/'` in `vite.config.ts` and use the same path in `index.html` and `public/404.html`.
 
 ## Contact
 

@@ -1,4 +1,3 @@
-
 export interface ProjectConfig {
     name: string;
     description: string;
