@@ -1,122 +1,24 @@
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ProjectCard from "./components/project-card/ProjectCard";
+import ProjectFilters from "./components/project-filters/ProjectFilters";
+import useGithubProjects from "./hooks/useGithubProjects";
 import "./Projects.css";
 
-interface Project {
-    id: number;
-    title: string;
-    description: string;
-    image: string;
-    tech: string[];
-    github: string;
-    demo?: string;
-}
-
-interface GithubRepo {
-    id: number;
-    name: string;
-    description: string | null;
-    html_url: string;
-    language: string | null;
-    fork: boolean;
-    archived: boolean;
-    private?: boolean;
-    updated_at?: string;
-}
-
-interface CommitSearchResponse {
-    items: {
-        repository: GithubRepo;
-    }[];
-}
-
 export default function Project() {
-    const [projects, setProjects] = useState<Project[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(false);
+    const { projects, loading, error } = useGithubProjects();
 
-    useEffect(() => {
-        async function fetchProjects() {
-            try {
-                const [ownedResponse, contributionsResponse] =
-                    await Promise.allSettled([
-                        fetch(
-                            "https://api.github.com/users/dav-cip/repos?type=owner&sort=updated&per_page=100"
-                        ),
-                        fetch(
-                            "https://api.github.com/search/commits?q=author:dav-cip&sort=author-date&order=desc&per_page=100",
-                            {
-                                headers: {
-                                    Accept: "application/vnd.github+json"
-                                }
-                            }
-                        )
-                    ]);
+    const [selectedTech, setSelectedTech] = useState("All");
 
-                // Check which requests succeeded
-                let ownedRepos: GithubRepo[] = [];
-                let contributedRepos: GithubRepo[] = [];
+    const technologies = Array.from(
+        new Set(projects.flatMap(project => project.tech))
+    ).sort();
 
-                if (ownedResponse.status === "fulfilled" &&
-                    ownedResponse.value.ok) {
-                    ownedRepos = await ownedResponse.value.json();
-                }
-
-                if (contributionsResponse.status === "fulfilled" &&
-                    contributionsResponse.value.ok) {
-                    const data: CommitSearchResponse =
-                        await contributionsResponse.value.json();
-
-                    contributedRepos = data.items.map(
-                        item => item.repository
-                    );
-                }
-
-                if (
-                    ownedRepos.length === 0 &&
-                    contributedRepos.length === 0
-                ) {
-                    throw new Error("Unable to retrieve GitHub repositories");
-                }
-
-                // Combine repositories and remove duplicates
-                const uniqueRepos = new Map<number, GithubRepo>();
-
-                [...ownedRepos, ...contributedRepos].forEach(repo => {
-                    if (
-                        !repo.archived &&
-                        !repo.private
-                    ) {
-                        uniqueRepos.set(repo.id, repo);
-                    }
-                });
-
-                // Convert GitHub data into your Project format
-                const formattedProjects: Project[] = Array.from(
-                    uniqueRepos.values()
-                ).map(repo => ({
-                    id: repo.id,
-                    title: repo.name,
-                    description:
-                        repo.description || "No description available.",
-                    image: "/images/project-placeholder.png",
-                    tech: repo.language ? [repo.language] : [],
-                    github: repo.html_url
-                }));
-
-                setProjects(formattedProjects);
-
-            } catch (error) {
-                console.error("GitHub API error:", error);
-                setError(true);
-            } finally {
-                setLoading(false);
-            }
-        }
-
-        fetchProjects();
-    }, []);
+    const filteredProjects = selectedTech === "All"
+        ? projects
+        : projects.filter(project =>
+            project.tech.includes(selectedTech)
+        );
 
     return (
         <main>
@@ -137,19 +39,32 @@ export default function Project() {
                         </p>
                     </div>
                 ) : (
-                    <div className="project-grid">
-                        {projects.map(project => (
-                            <ProjectCard
-                                key={project.id}
-                                title={project.title}
-                                image={project.image}
-                                description={project.description}
-                                tech={project.tech}
-                                github={project.github}
-                                demo={project.demo}
-                            />
-                        ))}
-                    </div>
+                    <>
+                        <ProjectFilters
+                            technologies={technologies}
+                            selectedTech={selectedTech}
+                            onSelect={setSelectedTech}
+                        />
+
+                        {filteredProjects.length === 0 ? (
+                            <p>No projects found for this technology.</p>
+                        ) : (
+                            <div className="project-grid">
+                                {filteredProjects.map(project => (
+                                    <ProjectCard
+                                        key={project.id}
+                                        title={project.title}
+                                        image={project.image}
+                                        description={project.description}
+                                        tech={project.tech}
+                                        github={project.github}
+                                        demo={project.demo}
+                                        featured={project.featured}
+                                    />
+                                ))}
+                            </div>
+                        )}
+                    </>
                 )}
             </section>
         </main>

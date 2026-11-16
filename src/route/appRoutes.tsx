@@ -8,7 +8,7 @@ const Landing = lazy(() => import("../pages/landing/Landing.tsx"));
 const About = lazy(() => import("../pages/about/About.tsx"));
 const Projects = lazy(() => import("../pages/projects/Projects.tsx"));
 const Contact = lazy(() => import("../pages/contact/Contact.tsx"));
-
+const NotFound = lazy(() => import("../pages/not-found/NotFound.tsx"));
 
 export const router = createBrowserRouter([
     {
@@ -21,8 +21,11 @@ export const router = createBrowserRouter([
                     { path: "/about", element: <About /> },
                     { path: "/projects", element: <Projects /> },
                     { path: "/contact", element: <Contact /> },
+                    { path: "*", element: <NotFound /> },
                 ]
             }
         ]
     }
-]);
+], {
+    basename: import.meta.env.BASE_URL,
+});

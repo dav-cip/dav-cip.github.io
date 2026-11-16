@@ -1,0 +1,29 @@
+.project-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 35px;
+}
+
+.filter-button {
+    padding: 9px 18px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--surface);
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition);
+}
+
+.filter-button:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.filter-button.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: white;
+}
