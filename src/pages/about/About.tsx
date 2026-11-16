@@ -31,15 +31,19 @@ export default function About() {
 
                 <p>
                     I'm a Computer Science student at CEGEP who enjoys programming, building applications, and exploring new technologies.
+                </p>
 
+                <p>
                     I like solving problems, experimenting with different tools, and turning ideas into practical projects. Through personal projects and hands-on experience, I'm continuously improving my programming skills and expanding my knowledge.
+                </p>
 
+                <p>
                     I'm always curious to learn something new and take on new challenges.
                 </p>
 
                 <div className="skills">
                     <div className="skills-group card">
-                        <h3>Languages</h3>
+                        <h2>Languages</h2>
 
                         <ul>
                             {languages.map((language) => (
@@ -51,7 +55,7 @@ export default function About() {
                     </div>
 
                     <div className="skills-group card">
-                        <h3>Tools & Technologies</h3>
+                        <h2>Tools & Technologies</h2>
 
                         <ul>
                             {tools.map((tool) => (
