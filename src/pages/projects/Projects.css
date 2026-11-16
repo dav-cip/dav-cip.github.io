@@ -1,3 +1,4 @@
+
 .projects {
     min-height: 100vh;
     max-width: 1200px;
@@ -9,7 +10,7 @@
     font-size: 55px;
     font-weight: 800;
     color: var(--text-primary);
-    margin: 0 0 50px 0;
+    margin: 0 0 50px;
 }
 
 .projects-heading::after {
@@ -17,12 +18,14 @@
     color: var(--accent);
 }
 
+/* Project grid */
 .project-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 35px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 30px;
 }
 
+/* Empty state */
 .no-projects {
     display: flex;
     flex-direction: column;
@@ -44,7 +47,7 @@
     font-size: 24px;
     font-weight: 700;
     color: var(--text-primary);
-    margin: 0 0 8px 0;
+    margin: 0 0 8px;
 }
 
 .no-projects p {
@@ -55,9 +58,27 @@
     line-height: 1.6;
 }
 
+/* Loading message */
+.projects-loading {
+    color: var(--text-secondary);
+    text-align: center;
+    padding: 30px 0;
+}
+
+/* Error message */
+.projects-error {
+    color: #dc2626;
+    text-align: center;
+    padding: 20px;
+    background: var(--surface);
+    border: 1px solid #dc2626;
+    border-radius: var(--radius-md);
+}
+
+/* Tablets */
 @media (max-width: 768px) {
     .projects {
-        padding: 100px 20px;
+        padding: 100px 24px;
     }
 
     .projects-heading {
@@ -67,5 +88,25 @@
     .project-grid {
         grid-template-columns: 1fr;
         gap: 24px;
+    }
+}
+
+/* Small mobile screens */
+@media (max-width: 480px) {
+    .projects {
+        padding: 90px 16px;
+    }
+
+    .projects-heading {
+        font-size: 36px;
+        margin-bottom: 32px;
+    }
+
+    .no-projects {
+        padding: 40px 20px;
+    }
+
+    .no-projects h2 {
+        font-size: 21px;
     }
 }

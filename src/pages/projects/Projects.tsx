@@ -26,9 +26,13 @@ export default function Project() {
                 <h1 className="projects-heading">Projects</h1>
 
                 {loading ? (
-                    <p>Loading projects...</p>
+                    <p className="projects-loading" role="status">
+                        Loading projects...
+                    </p>
                 ) : error ? (
-                    <p>Unable to load projects. Please try again later.</p>
+                    <p className="projects-error" role="alert">
+                        Unable to load projects. Please try again later.
+                    </p>
                 ) : projects.length === 0 ? (
                     <div className="no-projects card">
                         <div className="no-projects-icon">📁</div>

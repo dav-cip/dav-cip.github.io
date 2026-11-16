@@ -30,7 +30,7 @@ export default function ProjectCard({
 
                 <img
                     src={image}
-                    alt={`${title} project screenshot`}
+                    alt={`${title} logo`}
                     className="project-image"
                     loading="lazy"
                 />

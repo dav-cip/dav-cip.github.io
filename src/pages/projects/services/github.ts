@@ -21,6 +21,10 @@ async function fetchJson<T>(url: string, options?: RequestInit): Promise<T> {
     const response = await fetch(url, options);
 
     if (!response.ok) {
+        if (response.status === 403 || response.status === 429) {
+            throw new Error("GitHub API rate limit exceeded.");
+        }
+
         throw new Error(`GitHub API request failed: ${response.status}`);
     }
 
