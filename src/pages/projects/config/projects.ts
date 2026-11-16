@@ -7,8 +7,7 @@ export interface ProjectConfig {
     demo?: string;
 }
 
-const projectImage = (filename: string) =>
-    `${import.meta.env.BASE_URL}images/${filename}`;
+const projectImage = (filename: string) => `${import.meta.env.BASE_URL}images/${filename}`;
 
 const projectConfig: ProjectConfig[] = [
     {
