@@ -47,8 +47,7 @@ export default function useGithubProjects() {
                     ({ repo, config }) => ({
                         id: repo.id,
                         title: repo.name,
-                        description:
-                            repo.description || "No description available.",
+                        description: config.description,
                         image: config.image,
                         tech: config.tech,
                         github: repo.html_url,
