@@ -1,38 +1,84 @@
+
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/images/portfolio.svg"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="/my-website/images/portfolio-logo.svg"
+    />
+
+    <!-- SEO -->
     <meta
       name="description"
-      content="Explore my projects, skills, and experience as a developer."
+      content="Explore the portfolio of Davide Cipolla, a Computer Science student showcasing software projects, technical skills, and development experience."
     />
+    <meta name="author" content="Davide Cipolla" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Theme -->
+    <meta name="theme-color" content="#F9FAFB" />
+
+    <!-- Open Graph: social sharing -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Davide Cipolla | Developer Portfolio" />
+    <meta
+      property="og:description"
+      content="Explore my software projects, technical skills, and development journey."
+    />
+    <meta
+      property="og:url"
+      content="https://dav-cip.github.io/my-website/"
+    />
+    <meta
+      property="og:image"
+      content="https://dav-cip.github.io/my-website/images/portfolio-logo.svg"
+    />
+
+    <!-- Twitter / X sharing -->
+    <meta name="twitter:card" content="summary" />
+    <meta
+      name="twitter:title"
+      content="Davide Cipolla | Developer Portfolio"
+    />
+    <meta
+      name="twitter:description"
+      content="Explore my software projects, technical skills, and development journey."
+    />
+    <meta
+      name="twitter:image"
+      content="https://dav-cip.github.io/my-website/images/portfolio-logo.svg"
+    />
+
     <title>Davide Cipolla | Developer Portfolio</title>
 
+    <!-- GitHub Pages SPA redirect -->
     <script>
       (function () {
         const search = window.location.search;
-          if (search.startsWith('?/')) {
-            const parts = search.slice(2).split('&');
 
-            const route = parts[0].replace(/~and~/g, '&');
-            const query = parts.length > 1
-                ? '?' + parts.slice(1)
-                    .join('&')
-                    .replace(/~and~/g, '&')
-                : '';
+        if (search.startsWith("?/")) {
+          const parts = search.slice(2).split("&");
 
-            window.history.replaceState(
-                null,
-                '',
-                '/my-website/' + route + query + window.location.hash
-            );
-          }
+          const route = parts[0].replace(/~and~/g, "&");
+          const query = parts.length > 1
+            ? "?" + parts.slice(1).join("&").replace(/~and~/g, "&")
+            : "";
+
+          window.history.replaceState(
+            null,
+            "",
+            "/my-website/" + route + query + window.location.hash
+          );
+        }
       })();
-
     </script>
   </head>
+
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>

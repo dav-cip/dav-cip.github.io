@@ -1,3 +1,4 @@
+/* Header */
 .header {
     width: 100%;
     position: fixed;
@@ -6,12 +7,12 @@
     background: rgba(255, 255, 255, 0.85);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    /* Webkit support */
     border-bottom: 1px solid var(--border);
     z-index: 1000;
     box-shadow: var(--shadow-sm);
 }
 
+/* Header container */
 .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -21,7 +22,10 @@
     justify-content: space-between;
 }
 
+/* Logo */
 .logo {
+    display: inline-block;
+    text-decoration: none;
     font-size: 30px;
     font-weight: 800;
     letter-spacing: -1px;
@@ -40,7 +44,6 @@
 }
 
 /* Navigation */
-
 .nav {
     display: flex;
     align-items: center;
@@ -62,7 +65,6 @@
 }
 
 /* Animated underline */
-
 .header-link::after {
     content: "";
     position: absolute;
@@ -79,29 +81,24 @@
     width: 100%;
 }
 
+/* Header actions */
 .header-actions {
     display: flex;
     align-items: center;
     gap: 20px;
 }
 
-
+/* Resume button */
 .resume-btn {
-    /* DISABLED */
     cursor: not-allowed;
     pointer-events: none;
     background: var(--disabled);
-
     text-decoration: none;
     color: #ffffff;
-    /*background: var(--accent);*/
-
     padding: 10px 22px;
     border-radius: var(--radius-sm);
-
     font-weight: 600;
     font-size: 15px;
-
     transition: all var(--transition);
     box-shadow: var(--shadow-sm);
 }
@@ -112,7 +109,7 @@
     box-shadow: var(--shadow-md);
 }
 
-
+/* Hamburger button */
 .hamburger {
     display: none;
     flex-direction: column;
@@ -134,6 +131,16 @@
     transition: all var(--transition);
 }
 
+/* Keyboard focus */
+.header-link:focus-visible,
+.logo:focus-visible,
+.hamburger:focus-visible {
+    outline: 3px solid var(--highlight);
+    outline-offset: 5px;
+    border-radius: 4px;
+}
+
+/* Mobile navigation */
 @media (max-width: 768px) {
     .container {
         padding: 14px 20px;
@@ -148,12 +155,12 @@
         font-size: 14px;
     }
 
-    /* Hamburger becomes visible */
+    /* Show hamburger */
     .hamburger {
         display: flex;
     }
 
-    /* Hamburger morphing animations into an 'X' */
+    /* Hamburger animation */
     .hamburger.open .bar:nth-child(1) {
         transform: translateY(8px) rotate(45deg);
     }
@@ -166,11 +173,10 @@
         transform: translateY(-8px) rotate(-45deg);
     }
 
-    /* Transform desktop nav bar into a smooth mobile dropdown drawer */
+    /* Mobile dropdown */
     .nav {
         position: absolute;
         top: 100%;
-        /* Sits directly below header border */
         left: 0;
         width: 100%;
         background: var(--surface);
@@ -180,22 +186,28 @@
         gap: 0;
         padding: 10px 0;
 
-        /* Invisible and slid upward by default */
         opacity: 0;
+        visibility: hidden;
         transform: translateY(-10px);
         pointer-events: none;
-        transition: opacity var(--transition), transform var(--transition);
+
+        transition:
+            opacity var(--transition),
+            transform var(--transition),
+            visibility var(--transition);
+
         box-shadow: var(--shadow-md);
     }
 
-    /* Show menu state toggle triggers */
+    /* Open dropdown */
     .nav.open {
         opacity: 1;
+        visibility: visible;
         transform: translateY(0);
         pointer-events: auto;
     }
 
-    /* Mobile menu list element layouts */
+    /* Mobile links */
     .header-link {
         padding: 16px 24px;
         font-size: 18px;
@@ -206,11 +218,10 @@
 
     .header-link:hover {
         transform: none;
-        /* Turn off 3D floating look inside layout rows */
         background: var(--surface-alt);
     }
 
-    /* Turn off underlining mechanics on modern mobile drawers */
+    /* Remove desktop underline */
     .header-link::after {
         display: none;
     }

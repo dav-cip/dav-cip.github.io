@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import "./Header.css";
 
 export default function Header() {
@@ -18,42 +18,58 @@ export default function Header() {
     return (
         <header className="header">
             <div className="container">
-                <h1 className="logo" onClick={closeMenu}>
+                <Link
+                    to="/"
+                    className="logo"
+                    onClick={closeMenu}
+                    aria-label="Davide - Home"
+                >
                     Davide<span>.</span>
-                </h1>
+                </Link>
 
-                {/* Combined Navigation Container */}
-                <nav className={`nav ${isOpen ? "open" : ""}`}>
-                    {links.map((link) =>
+                <nav
+                    id="main-navigation"
+                    className={`nav ${isOpen ? "open" : ""}`}
+                    aria-label="Main navigation"
+                >
+                    {links.map((link) => (
                         <NavLink
                             key={link.link}
                             to={link.link}
-                            onClick={closeMenu} /* Closes menu when a link is clicked */
+                            onClick={closeMenu}
                             className={({ isActive }) =>
-                                isActive ? "header-link active" : "header-link"
+                                isActive
+                                    ? "header-link active"
+                                    : "header-link"
                             }
                         >
                             {link.name}
                         </NavLink>
-                    )}
+                    ))}
                 </nav>
 
-                {/* Right Area: Button + Hamburger */}
                 <div className="header-actions">
                     <a
                         className="resume-btn"
-                        href="/resume.pdf"
+                        href={`${import.meta.env.BASE_URL}resume.pdf`}
                         target="_blank"
                         rel="noopener noreferrer"
+                        aria-disabled="true"
                     >
                         Resume
                     </a>
 
-                    {/* CSS Hamburger Button */}
                     <button
+                        type="button"
                         className={`hamburger ${isOpen ? "open" : ""}`}
                         onClick={toggleMenu}
-                        aria-label="Toggle navigation menu"
+                        aria-label={
+                            isOpen
+                                ? "Close navigation menu"
+                                : "Open navigation menu"
+                        }
+                        aria-expanded={isOpen}
+                        aria-controls="main-navigation"
                     >
                         <span className="bar"></span>
                         <span className="bar"></span>

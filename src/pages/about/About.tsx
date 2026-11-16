@@ -3,19 +3,19 @@ import './About.css';
 export default function About() {
 
     const languages = [
-        { name: "Java", color: "#b45309" },
-        { name: "HTML", color: "#c2410c" },
-        { name: "CSS", color: "#1d4ed8" },
-        { name: "Javascript", color: "#ca8a04" },
-        { name: "Typescript", color: "#2563a6" },
-        { name: "SQL", color: "#036672" }
+        "Java",
+        "JavaScript",
+        "TypeScript",
+        "HTML",
+        "CSS",
+        "SQL"
     ];
 
     const tools = [
-        { name: "React", color: "#0e7490" },
-        { name: "Git", color: "#c2410c" },
-        { name: "GitHub", color: "#374151" },
-        { name: "VS Code", color: "#0369a1" }
+        "React",
+        "Git",
+        "GitHub",
+        "VS Code"
     ];
 
     return (
@@ -25,38 +25,35 @@ export default function About() {
                 <h1>About Me</h1>
 
                 <p>
-                    I'm a Computer Science student currently studying at CEGEP.
-                    I enjoy programming, creating applications, and learning new
-                    technologies.
+                    I'm a Computer Science student at CEGEP who enjoys programming, building applications, and exploring new technologies.
+
+                    I like solving problems, experimenting with different tools, and turning ideas into practical projects. Through personal projects and hands-on experience, I'm continuously improving my programming skills and expanding my knowledge.
+
+                    I'm always curious to learn something new and take on new challenges.
                 </p>
 
                 <div className="skills">
-
                     <div className="skills-group card">
                         <h3>Languages</h3>
+
                         <ul>
-                            {languages.map((l) =>
-                                <li
-                                    key={l.name}
-                                    style={{ backgroundColor: l.color }}
-                                >
-                                    <p>{l.name}</p>
+                            {languages.map((language) => (
+                                <li key={language}>
+                                    {language}
                                 </li>
-                            )}
+                            ))}
                         </ul>
                     </div>
 
                     <div className="skills-group card">
-                        <h3>Tools</h3>
+                        <h3>Tools & Technologies</h3>
+
                         <ul>
-                            {tools.map((t) =>
-                                <li
-                                    key={t.name}
-                                    style={{ backgroundColor: t.color }}
-                                >
-                                    <p>{t.name}</p>
+                            {tools.map((tool) => (
+                                <li key={tool}>
+                                    {tool}
                                 </li>
-                            )}
+                            ))}
                         </ul>
                     </div>
                 </div>

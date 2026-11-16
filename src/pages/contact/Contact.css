@@ -69,6 +69,11 @@
     color: var(--accent-hover);
 }
 
+.contact-card:focus-visible {
+    outline: 3px solid var(--highlight);
+    outline-offset: 4px;
+}
+
 @media (max-width: 768px) {
     .contact {
         padding: 100px 20px;
