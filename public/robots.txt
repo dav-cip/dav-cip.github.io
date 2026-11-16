@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://dav-cip.github.io/sitemap.xml

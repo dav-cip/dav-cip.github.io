@@ -41,9 +41,9 @@ export default function ProjectCard({
 
                 <p>{description}</p>
 
-                <div className="tech-list" aria-label="Technologies used">
+                <div className="tech-list" role="list" aria-label="Technologies used">
                     {tech.map(technology => (
-                        <span key={technology}>
+                        <span key={technology} role="listitem">
                             {technology}
                         </span>
                     ))}
