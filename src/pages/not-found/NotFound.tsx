@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
+import usePageTitle from "../../hooks/usePageTitle";
 import "./NotFound.css";
 
 export default function NotFound() {
+    usePageTitle("Not Found");
+    
     return (
         <main>
             <section className="not-found">

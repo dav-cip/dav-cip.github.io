@@ -1,8 +1,10 @@
-
 import { Link } from "react-router-dom";
-import "./Landing.css";
+import usePageTitle from "../../hooks/usePageTitle";
+import "./Home.css";
 
-export default function Landing() {
+export default function Home() {
+    usePageTitle("Home");
+    
     return (
         <main>
             <section className="home">

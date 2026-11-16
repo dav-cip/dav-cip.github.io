@@ -1,11 +1,13 @@
-
 import { useState } from "react";
+import usePageTitle from "../../hooks/usePageTitle";
 import ProjectCard from "./components/project-card/ProjectCard";
 import ProjectFilters from "./components/project-filters/ProjectFilters";
 import useGithubProjects from "./hooks/useGithubProjects";
 import "./Projects.css";
 
 export default function Project() {
+    usePageTitle("Projects");
+
     const { projects, loading, error } = useGithubProjects();
 
     const [selectedTech, setSelectedTech] = useState("All");

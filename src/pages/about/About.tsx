@@ -1,6 +1,8 @@
+import usePageTitle from "../../hooks/usePageTitle";
 import './About.css';
 
 export default function About() {
+    usePageTitle("About");
 
     const languages = [
         "Java",

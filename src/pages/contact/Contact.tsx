@@ -1,6 +1,8 @@
+import usePageTitle from "../../hooks/usePageTitle";
 import './Contact.css';
 
 export default function Contact() {
+    usePageTitle("Contact");
     return (
         <main>
             <section className="contact">
