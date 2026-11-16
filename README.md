@@ -11,13 +11,13 @@ I'm a Computer Science student at CEGEP who enjoys programming, building applica
 ## Features
 
 - **Pages:** Home, About, Projects, and Contact, plus a custom 404 page
-- **Live project showcase:** the Projects page fetches my public repositories (and repositories I've committed to) from the GitHub API and pairs them with curated descriptions, images, and tech tags
+- **Live project showcase:** new public repositories appear on the Projects page automatically through the GitHub API, with optional curated descriptions, images, and tech tags
 - **Tech filtering:** filter projects by technology, with featured projects listed first
 - **Responsive design:** mobile-friendly layout with a collapsible navigation menu
 - **Accessible markup:** ARIA labels, semantic landmarks, and status/alert roles for loading and error states
 - **Resilient by design:** lazy-loaded routes, an error boundary, and a fallback to the curated project list when the GitHub API fails or is rate limited
-- **Per-page titles:** each route sets its own tab title through the `usePageTitle` hook
-- **SEO and sharing:** meta description, Open Graph and Twitter card tags, a social preview image, `robots.txt`, and a sitemap
+- **Per-page metadata:** each route sets its own tab title, description, Open Graph/Twitter tags, and canonical URL through the `usePageTitle` hook
+- **SEO and sharing:** meta description, Open Graph and Twitter card tags, a social preview image, `robots.txt`, and a sitemap, all generated at build time from one config file (the sitemap's `lastmod` is the build date)
 - **Automated deployment:** every push to `main` is linted, built, and published to GitHub Pages
 
 ## Tech Stack
@@ -64,19 +64,17 @@ The site will be available at the local URL Vite prints, usually `http://localho
 dav-cip.github.io/
 ├── .github/workflows/deploy.yml   # GitHub Pages deployment
 ├── public/
-│   ├── 404.html                   # SPA redirect for GitHub Pages
-│   ├── robots.txt
-│   ├── sitemap.xml
 │   └── images/                    # Project images and social preview
 ├── src/
 │   ├── components/                # Header, error boundary, fallback
-│   ├── hooks/                     # usePageTitle
+│   ├── config/site.ts             # Site name, URL, GitHub user, routes
+│   ├── hooks/                     # usePageTitle (title + SEO meta)
 │   ├── pages/
 │   │   ├── home/                  # Home page
 │   │   ├── about/                 # Bio and skills
 │   │   ├── projects/              # GitHub-powered project showcase
 │   │   │   ├── components/        # ProjectCard, ProjectFilters
-│   │   │   ├── config/projects.ts # Curated project details
+│   │   │   ├── config/projects.ts # Optional per-project overrides
 │   │   │   ├── hooks/             # useGithubProjects
 │   │   │   └── services/github.ts # GitHub API calls
 │   │   ├── contact/               # Contact links
@@ -86,38 +84,50 @@ dav-cip.github.io/
 │   ├── main.tsx
 │   └── index.css                  # Global styles
 ├── eslint.config.js
+├── LICENSE                        # MIT
 ├── index.html
-└── vite.config.ts
+└── vite.config.ts                 # Also generates sitemap, robots.txt, 404.html
 ```
 
-## Adding a Project
+## Projects
 
-The Projects page only shows repositories that have an entry in `src/pages/projects/config/projects.ts`. To add one:
+Projects are discovered automatically. Any public, non-fork repository owned by the GitHub user in `src/config/site.ts` appears on the Projects page with:
 
-1. Add an image to `public/images/`.
-2. Add an entry to the config, where `name` must match the GitHub repository name exactly:
+- **Description:** the repository's GitHub description
+- **Tech tags:** the repository's main language plus its GitHub topics
+- **Demo link:** the repository's homepage URL, if set
+- **Image:** a default placeholder (`public/images/default-project.svg`)
+- **Order:** featured projects first, then most recently pushed
+
+So the normal workflow is: create a repo, give it a description and topics on GitHub, and it shows up on the next page load. No redeploy is needed.
+
+### Customizing a project
+
+To override any of the above, add an entry to `src/pages/projects/config/projects.ts`. Only `name` is required, and it must match the GitHub repository name exactly:
 
 ```ts
 {
     name: "repo-name",
-    github: "https://github.com/owner/repo-name",
     description: "A short description of the project.",
-    featured: false,
-    image: projectImage("repo-name.svg"),
+    featured: true,
+    image: projectImage("repo-name.svg"), // file in public/images/
     tech: ["TypeScript", "React"],
-    demo: "https://example.com" // optional
+    demo: "https://example.com",
+    github: "https://github.com/owner/repo-name" // fallback link if the API is down
 }
 ```
 
-3. Push to `main`. The repository details come from GitHub automatically, and the site redeploys.
+Use the config for:
 
-The `github` URL is used for the card link when the API is unavailable. When the API works, the link comes from the repository itself.
+- **Custom details:** your own description, image, tech tags, or the Featured badge.
+- **Repos that aren't automatic:** forks, and repositories owned by someone else that you've committed to (like `graph-your-x`). These only show up if they have a config entry.
+- **Hiding a repo:** add `{ name: "repo-name", hidden: true }`.
 
 ### How projects are loaded
 
-`services/github.ts` makes two unauthenticated GitHub API requests: repositories owned by `dav-cip`, and repositories I've authored commits in (via commit search). The results are merged, de-duplicated, and filtered to remove archived and private repositories. `useGithubProjects` then matches them to the config by name, with featured projects first.
+`services/github.ts` makes two unauthenticated GitHub API requests: repositories owned by the GitHub user, and repositories they've authored commits in (via commit search). The results are merged, de-duplicated, and archived and private repositories are removed. `useGithubProjects` then builds the project list as described above.
 
-> **Note:** if a repository is renamed, update its `name` in the config too, or its card will disappear. Because the API is unauthenticated, it is subject to rate limits. If both requests fail, the page falls back to showing every project from the config; an error message appears only if the config is empty.
+> **Note:** if a configured repository is renamed, update its `name` in the config too. The API is unauthenticated, so it is subject to rate limits. If both requests fail, the page falls back to showing only the projects in the config; an error message appears only if the config is empty.
 
 ## Deployment
 
@@ -131,13 +141,22 @@ A lint error fails the build, so run `npm run lint` locally before pushing.
 
 The site is served from the root of the user domain, so the repository is named `dav-cip.github.io` and the Vite `base` in `vite.config.ts` is `'/'`.
 
-To deploy your own copy:
+### Generated files
+
+`sitemap.xml`, `robots.txt`, and the GitHub Pages `404.html` redirect are not stored in the repository. A small plugin in `vite.config.ts` creates them on every build from `src/config/site.ts` and the Vite `base`, and it fills the site URL into `index.html`. The sitemap's `lastmod` is the date of the build. To add a page, add its route to `routes` in `src/config/site.ts`.
+
+### Deploying your own copy
 
 1. Name the repository `<your-username>.github.io`.
 2. Enable **Settings → Pages → Source: GitHub Actions**.
-3. Keep `base: '/'` in `vite.config.ts`, and update the URLs in `index.html`, `public/404.html`, `public/robots.txt`, and `public/sitemap.xml` to your own, and the GitHub username in `services/github.ts`.
+3. Edit `src/config/site.ts`: set your name, site URL, and GitHub username. Everything else (page metadata, GitHub API calls, sitemap, robots.txt, 404 redirect, Open Graph URLs) follows from it.
+4. Keep `base: '/'` in `vite.config.ts`.
 
-If you instead host it under a project path (for example `<username>.github.io/my-site/`), set `base` to `'/my-site/'` in `vite.config.ts` and use the same path in `index.html`, `public/404.html`, and the sitemap.
+If you instead host it under a project path (for example `<username>.github.io/my-site/`), set `base` to `'/my-site/'` in `vite.config.ts` and make the `url` in `src/config/site.ts` include the same path.
+
+## License
+
+Released under the [MIT License](LICENSE).
 
 ## Contact
 

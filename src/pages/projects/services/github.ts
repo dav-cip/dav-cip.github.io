@@ -1,3 +1,4 @@
+import { SITE } from "../../../config/site";
 
 export interface GithubRepo {
     id: number;
@@ -5,10 +6,14 @@ export interface GithubRepo {
     description: string | null;
     html_url: string;
     language: string | null;
+    topics?: string[];
+    homepage?: string | null;
+    owner?: { login: string };
     fork: boolean;
     archived: boolean;
     private?: boolean;
     updated_at?: string;
+    pushed_at?: string;
 }
 
 interface CommitSearchResponse {
@@ -34,10 +39,10 @@ async function fetchJson<T>(url: string, options?: RequestInit): Promise<T> {
 export async function fetchGithubRepositories(): Promise<GithubRepo[]> {
     const [ownedResult, contributionsResult] = await Promise.allSettled([
         fetchJson<GithubRepo[]>(
-            "https://api.github.com/users/dav-cip/repos?type=owner&sort=updated&per_page=100"
+            `https://api.github.com/users/${SITE.githubUser}/repos?type=owner&sort=updated&per_page=100`
         ),
         fetchJson<CommitSearchResponse>(
-            "https://api.github.com/search/commits?q=author:dav-cip&sort=author-date&order=desc&per_page=100",
+            `https://api.github.com/search/commits?q=author:${SITE.githubUser}&sort=author-date&order=desc&per_page=100`,
             {
                 headers: {
                     Accept: "application/vnd.github+json"

@@ -1,8 +1,13 @@
+import { SITE } from "../../config/site";
 import usePageTitle from "../../hooks/usePageTitle";
 import './Contact.css';
 
 export default function Contact() {
-    usePageTitle("Contact");
+    usePageTitle(
+        "Contact",
+        "Get in touch with Davide Cipolla by email, GitHub, or LinkedIn."
+    );
+    
     return (
         <main>
             <section className="contact">
@@ -22,7 +27,7 @@ export default function Contact() {
                     </a>
 
                     <a
-                        href="https://github.com/dav-cip"
+                        href={`https://github.com/${SITE.githubUser}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="contact-card card"

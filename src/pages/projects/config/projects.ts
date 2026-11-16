@@ -1,14 +1,26 @@
+/**
+ * Optional overrides for a project.
+ *
+ * Your own public, non-fork repositories appear on the Projects page
+ * automatically, using their GitHub description, language, and topics.
+ * Add an entry here only to customize one, or to show a repository
+ * that isn't automatic (a fork, or one you only contributed to).
+ * `name` must match the GitHub repository name exactly.
+ */
 export interface ProjectConfig {
     name: string;
-    github: string;
-    description: string;
-    featured: boolean;
-    image: string;
-    tech: string[];
+    github?: string; // used for the card link when the GitHub API is unavailable
+    description?: string;
+    featured?: boolean;
+    image?: string;
+    tech?: string[];
     demo?: string;
+    hidden?: boolean; // set to true to hide an automatically listed repository
 }
 
 const projectImage = (filename: string) => `${import.meta.env.BASE_URL}images/${filename}`;
+
+export const DEFAULT_PROJECT_IMAGE = projectImage("default-project.svg");
 
 const projectConfig: ProjectConfig[] = [
     {
