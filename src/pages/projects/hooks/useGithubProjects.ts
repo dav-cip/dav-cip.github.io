@@ -1,9 +1,21 @@
 import { useEffect, useState } from "react";
-import {
-    fetchGithubRepositories,
-    type GithubRepo
-} from "../services/github";
+import { fetchGithubRepositories, type GithubRepo } from "../services/github";
 import projectConfig from "../config/projects";
+
+function buildFallbackProjects(): Project[] {
+    return projectConfig
+        .map((config, index) => ({
+            id: index,
+            title: config.name,
+            description: config.description,
+            image: config.image,
+            tech: config.tech,
+            github: config.github,
+            demo: config.demo,
+            featured: config.featured
+        }))
+        .sort((a, b) => Number(b.featured) - Number(a.featured));
+}
 
 export interface Project {
     id: number;
@@ -72,7 +84,9 @@ export default function useGithubProjects() {
                 setProjects(formattedProjects);
             } catch (error) {
                 console.error("GitHub API error:", error);
-                setError(true);
+                const fallback = buildFallbackProjects();
+                setProjects(fallback);
+                if (fallback.length === 0) setError(true);
             } finally {
                 setLoading(false);
             }
