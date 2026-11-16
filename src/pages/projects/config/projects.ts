@@ -21,9 +21,11 @@ const projectConfig: ProjectConfig[] = [
         tech: [
             "React",
             "TypeScript",
+            "CSS",
+            "Vite",
             "Python",
             "FastAPI",
-            "SQLite"
+            "SQLite",
         ]
     },
     {
