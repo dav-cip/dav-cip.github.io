@@ -1,16 +1,41 @@
 import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
+import { useLanguage } from "../../i18n/LanguageContext";
+import type { TranslationKey } from "../../i18n/translations";
+import { useTheme } from "../../theme/ThemeContext";
 import "./Header.css";
+
+const links: { labelKey: TranslationKey; link: string }[] = [
+    { labelKey: "nav.home", link: "/" },
+    { labelKey: "nav.about", link: "/about" },
+    { labelKey: "nav.experience", link: "/experience" },
+    { labelKey: "nav.projects", link: "/projects" },
+    { labelKey: "nav.contact", link: "/contact" },
+];
+
+function MoonIcon() {
+    return (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+            strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" />
+        </svg>
+    );
+}
+
+function SunIcon() {
+    return (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+            strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4" />
+            <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+        </svg>
+    );
+}
 
 export default function Header() {
     const [isOpen, setIsOpen] = useState(false);
-
-    const links = [
-        { name: "Home", link: "/" },
-        { name: "About", link: "/about" },
-        { name: "Projects", link: "/projects" },
-        { name: "Contact", link: "/contact" },
-    ];
+    const { t, toggleLang } = useLanguage();
+    const { theme, toggleTheme } = useTheme();
 
     const toggleMenu = () => setIsOpen(!isOpen);
     const closeMenu = () => setIsOpen(false);
@@ -22,7 +47,7 @@ export default function Header() {
                     to="/"
                     className="logo"
                     onClick={closeMenu}
-                    aria-label="Davide - Home"
+                    aria-label={t("nav.logoLabel")}
                 >
                     Davide<span>.</span>
                 </Link>
@@ -30,7 +55,7 @@ export default function Header() {
                 <nav
                     id="main-navigation"
                     className={`nav ${isOpen ? "open" : ""}`}
-                    aria-label="Main navigation"
+                    aria-label={t("nav.main")}
                 >
                     {links.map((link) => (
                         <NavLink
@@ -43,21 +68,39 @@ export default function Header() {
                                     : "header-link"
                             }
                         >
-                            {link.name}
+                            {t(link.labelKey)}
                         </NavLink>
                     ))}
                 </nav>
 
                 <div className="header-actions">
-                    <a
-                        className="resume-btn"
-                        href={`${import.meta.env.BASE_URL}resume.pdf`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-disabled="true"
+                    <button
+                        type="button"
+                        className="header-toggle"
+                        onClick={toggleLang}
+                        aria-label={t("header.switchToOtherLanguage")}
+                        title={t("header.switchToOtherLanguage")}
                     >
-                        Resume
-                    </a>
+                        {t("header.otherLanguageCode")}
+                    </button>
+
+                    <button
+                        type="button"
+                        className="header-toggle"
+                        onClick={toggleTheme}
+                        aria-label={
+                            theme === "dark"
+                                ? t("header.themeToLight")
+                                : t("header.themeToDark")
+                        }
+                        title={
+                            theme === "dark"
+                                ? t("header.themeToLight")
+                                : t("header.themeToDark")
+                        }
+                    >
+                        {theme === "dark" ? <SunIcon /> : <MoonIcon />}
+                    </button>
 
                     <button
                         type="button"
@@ -65,8 +108,8 @@ export default function Header() {
                         onClick={toggleMenu}
                         aria-label={
                             isOpen
-                                ? "Close navigation menu"
-                                : "Open navigation menu"
+                                ? t("nav.closeMenu")
+                                : t("nav.openMenu")
                         }
                         aria-expanded={isOpen}
                         aria-controls="main-navigation"

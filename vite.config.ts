@@ -1,6 +1,8 @@
+/// <reference types="vitest/config" />
 import react from '@vitejs/plugin-react'
 import { defineConfig, type Plugin } from 'vite'
 import { SITE } from './src/config/site.ts'
+import { buildRobots, buildSitemap } from './src/config/seo.ts'
 
 // Generates sitemap.xml, robots.txt and 404.html at build time and fills the
 // site URL / base path into index.html, so none of them are maintained by hand.
@@ -20,25 +22,16 @@ function siteFiles(): Plugin {
     generateBundle() {
       // Date of this build, so lastmod always matches the latest deploy.
       const lastmod = new Date().toISOString().slice(0, 10)
-      const root = SITE.url.replace(/\/+$/, '')
-
-      const urls = SITE.routes
-        .map((route) => {
-          const loc = route ? `${root}/${route}` : `${root}/`
-          return `  <url>\n    <loc>${loc}</loc>\n    <lastmod>${lastmod}</lastmod>\n  </url>`
-        })
-        .join('\n')
-
       this.emitFile({
         type: 'asset',
         fileName: 'sitemap.xml',
-        source: `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`,
+        source: buildSitemap(SITE.url, SITE.routes, lastmod),
       })
 
       this.emitFile({
         type: 'asset',
         fileName: 'robots.txt',
-        source: `User-agent: *\nAllow: /\n\nSitemap: ${root}/sitemap.xml\n`,
+        source: buildRobots(SITE.url),
       })
 
       // GitHub Pages SPA redirect: unknown paths land here and are forwarded
@@ -81,4 +74,8 @@ function siteFiles(): Plugin {
 export default defineConfig({
   plugins: [react(), siteFiles()],
   base: '/',
+  test: {
+    environment: 'node',
+    include: ['src/**/*.test.ts'],
+  },
 })

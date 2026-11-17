@@ -1,24 +1,25 @@
 import { Link } from "react-router-dom";
 import usePageTitle from "../../hooks/usePageTitle";
+import { useLanguage } from "../../i18n/LanguageContext";
 import "./NotFound.css";
 
 export default function NotFound() {
-    usePageTitle("Not Found");
-    
+    const { t } = useLanguage();
+    usePageTitle(t("notFound.title"));
+
     return (
         <main>
             <section className="not-found">
                 <h1>404<span>.</span></h1>
 
-                <h2>Page Not Found</h2>
+                <h2>{t("notFound.heading")}</h2>
 
                 <p>
-                    Sorry, the page you're looking for doesn't exist
-                    or may have been moved.
+                    {t("notFound.text")}
                 </p>
 
                 <Link to="/" className="btn-primary not-found-btn">
-                    Back to Home
+                    {t("common.backHome")}
                 </Link>
             </section>
         </main>

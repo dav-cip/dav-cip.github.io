@@ -10,10 +10,12 @@ I'm a Computer Science student at CEGEP who enjoys programming, building applica
 
 ## Features
 
-- **Pages:** Home, About, Projects, and Contact, plus a custom 404 page
+- **Pages:** Home, About, Experience, Projects, and Contact, plus a custom 404 page
 - **Live project showcase:** new public repositories appear on the Projects page automatically through the GitHub API, with optional curated descriptions, images, and tech tags
 - **Tech filtering:** filter projects by technology, with featured projects listed first
 - **Responsive design:** mobile-friendly layout with a collapsible navigation menu
+- **Dark mode:** light and dark themes that follow the system setting by default, with a toggle in the header; the choice is saved and applied before first paint so there's no flash
+- **English and French:** a language toggle in the header; the browser's language is used on the first visit and the choice is saved
 - **Accessible markup:** ARIA labels, semantic landmarks, and status/alert roles for loading and error states
 - **Resilient by design:** lazy-loaded routes, an error boundary, and a fallback to the curated project list when the GitHub API fails or is rate limited
 - **Per-page metadata:** each route sets its own tab title, description, Open Graph/Twitter tags, and canonical URL through the `usePageTitle` hook
@@ -28,6 +30,7 @@ I'm a Computer Science student at CEGEP who enjoys programming, building applica
 | Language   | TypeScript                               |
 | Build tool | Vite                                     |
 | Styling    | Plain CSS (one stylesheet per component) |
+| Testing    | Vitest                                   |
 | Linting    | ESLint with typescript-eslint and React hooks rules |
 | Hosting    | GitHub Pages via GitHub Actions          |
 
@@ -57,6 +60,8 @@ The site will be available at the local URL Vite prints, usually `http://localho
 | `npm run build`   | Type-check and create a production build |
 | `npm run preview` | Preview the production build locally     |
 | `npm run lint`    | Run ESLint                               |
+| `npm test`        | Run the Vitest tests once                |
+| `npm run test:watch` | Run the tests in watch mode           |
 
 ## Project Structure
 
@@ -68,14 +73,19 @@ dav-cip.github.io/
 ├── src/
 │   ├── components/                # Header, error boundary, fallback
 │   ├── config/site.ts             # Site name, URL, GitHub user, routes
+│   ├── config/seo.ts              # Sitemap and robots.txt builders
+│   ├── i18n/                      # English/French text and language provider
+│   ├── theme/                     # Light/dark theme provider
 │   ├── hooks/                     # usePageTitle (title + SEO meta)
 │   ├── pages/
 │   │   ├── home/                  # Home page
 │   │   ├── about/                 # Bio and skills
+│   │   ├── experience/            # Education, hackathon, volunteering
 │   │   ├── projects/              # GitHub-powered project showcase
 │   │   │   ├── components/        # ProjectCard, ProjectFilters
 │   │   │   ├── config/projects.ts # Optional per-project overrides
 │   │   │   ├── hooks/             # useGithubProjects
+│   │   │   ├── utils/             # buildProjects (repo to project logic)
 │   │   │   └── services/github.ts # GitHub API calls
 │   │   ├── contact/               # Contact links
 │   │   └── not-found/             # 404 page
@@ -109,6 +119,7 @@ To override any of the above, add an entry to `src/pages/projects/config/project
 {
     name: "repo-name",
     description: "A short description of the project.",
+    descriptionFr: "Une courte description en français.", // optional
     featured: true,
     image: projectImage("repo-name.svg"), // file in public/images/
     tech: ["TypeScript", "React"],
@@ -129,15 +140,40 @@ Use the config for:
 
 > **Note:** if a configured repository is renamed, update its `name` in the config too. The API is unauthenticated, so it is subject to rate limits. If both requests fail, the page falls back to showing only the projects in the config; an error message appears only if the config is empty.
 
+## Languages and Theme
+
+### Translations
+
+All visible text lives in `src/i18n/translations.ts`: `en` defines the keys and `fr` must provide every one of them (a missing French string is a TypeScript error and a failing test). Components read text with the `useLanguage()` hook:
+
+```tsx
+const { t } = useLanguage();
+<h1>{t("about.heading")}</h1>
+```
+
+To add or change text, edit both `en` and `fr`. Use `{name}` placeholders for values filled in at runtime, for example `t("projects.imageAlt", { title })`. Technology names (React, FastAPI, ...) stay as plain text since they're the same in both languages.
+
+Project descriptions from GitHub are shown as written. To give a project a French description, add `descriptionFr` to its config entry.
+
+The page language is also set on `<html lang>`. The routes are the same in both languages, and the static tags in `index.html` (used by link previews) are in English.
+
+### Dark mode
+
+Colors are CSS variables defined in `src/index.css`. The dark values live under `:root[data-theme="dark"]`. When you add styles, use the variables (`var(--surface)`, `var(--text-primary)`, `var(--chip-bg)`, ...) instead of hardcoded colors so both themes keep working. A small script in `index.html` applies the saved theme before the page paints.
+
+## Tests
+
+Tests run with Vitest (`npm test`) and sit next to the code they cover (`*.test.ts`). They currently cover the French/English translations (same keys and placeholders in both), language and theme selection, project listing rules, and sitemap/robots generation.
+
 ## Deployment
 
 The site deploys automatically through GitHub Actions (`.github/workflows/deploy.yml`):
 
 1. A push to `main` (or a manual run) triggers the workflow.
-2. The workflow installs dependencies with `npm ci`, runs `npm run lint`, then `npm run build`.
+2. The workflow installs dependencies with `npm ci`, then runs `npm run lint`, `npm test`, and `npm run build`.
 3. The `dist/` folder is published to GitHub Pages.
 
-A lint error fails the build, so run `npm run lint` locally before pushing.
+A lint error or failing test stops the deploy, so run `npm run lint && npm test` locally before pushing.
 
 The site is served from the root of the user domain, so the repository is named `dav-cip.github.io` and the Vite `base` in `vite.config.ts` is `'/'`.
 

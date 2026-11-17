@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import ErrorBoundary from "../components/error-boundary/ErrorBoundary";
 
 import MainLayout from "./MainLayout.tsx";
-import { Home, About, Projects, Contact, NotFound } from "./lazyPages.ts";
+import { Home, About, Experience, Projects, Contact, NotFound } from "./lazyPages.ts";
 
 export const router = createBrowserRouter([
     {
@@ -13,6 +13,7 @@ export const router = createBrowserRouter([
                 children: [
                     { path: "/", element: <Home /> },
                     { path: "/about", element: <About /> },
+                    { path: "/experience", element: <Experience /> },
                     { path: "/projects", element: <Projects /> },
                     { path: "/contact", element: <Contact /> },
                     { path: "*", element: <NotFound /> },

@@ -1,13 +1,15 @@
 import { useRouteError, isRouteErrorResponse, Link } from "react-router-dom";
+import { useLanguage } from "../../i18n/LanguageContext";
 import "./ErrorBoundary.css";
 
 export default function ErrorBoundary() {
     const error = useRouteError();
+    const { t } = useLanguage();
 
 
     console.error("ErrorBoundary caught:", error);
 
-    let message = "An unexpected error occurred.";
+    let message = t("error.unexpected");
 
 
     if (isRouteErrorResponse(error)) {
@@ -22,12 +24,12 @@ export default function ErrorBoundary() {
         <div className="error-container">
             <div className="error-card card">
                 <div className="error-icon">!</div>
-                <h2 className="error-heading">Oops! Something went wrong.</h2>
+                <h2 className="error-heading">{t("error.heading")}</h2>
                 <p className="error-message">{message}</p>
 
                 {/* Added a helpful button to get users back to safety safely */}
                 <Link to="/" className="btn-primary error-btn">
-                    Back to Home
+                    {t("common.backHome")}
                 </Link>
             </div>
         </div>

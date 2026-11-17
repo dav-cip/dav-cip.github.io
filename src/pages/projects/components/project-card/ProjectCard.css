@@ -123,13 +123,13 @@
 
 .project-links a:first-child:hover {
     background: var(--accent);
-    color: white;
+    color: var(--on-accent);
     transform: translateY(-2px);
 }
 
 .project-links a:last-child:not(:first-child) {
     background: var(--accent);
-    color: white;
+    color: var(--on-accent);
     border: 1px solid var(--accent);
 }
 

@@ -11,6 +11,7 @@ export interface ProjectConfig {
     name: string;
     github?: string; // used for the card link when the GitHub API is unavailable
     description?: string;
+    descriptionFr?: string; // French description; falls back to `description`
     featured?: boolean;
     image?: string;
     tech?: string[];
@@ -28,6 +29,8 @@ const projectConfig: ProjectConfig[] = [
         github: "https://github.com/GermanViter/graph-your-x",
         description:
             "An interactive learning-path planner that visualizes the prerequisites needed to reach a learning goal. Track completed courses, discover what you're ready to learn next, and build custom learning roadmaps.",
+        descriptionFr:
+            "Un planificateur de parcours d'apprentissage interactif qui visualise les prérequis nécessaires pour atteindre un objectif. Suivez les cours terminés, découvrez ce que vous êtes prêt à apprendre ensuite et créez vos propres feuilles de route.",
         featured: true,
         image: projectImage("graph-your-x.svg"),
         tech: [
@@ -45,6 +48,8 @@ const projectConfig: ProjectConfig[] = [
         github: "https://github.com/dav-cip/dav-cip.github.io",
         description:
             "A personal developer portfolio showcasing my projects, technical skills, and experience through a responsive and modern web experience.",
+        descriptionFr:
+            "Un portfolio de développeur personnel qui présente mes projets, mes compétences techniques et mon expérience dans une expérience web moderne et adaptable.",
         featured: false,
         image: projectImage("portfolio.svg"),
         tech: ["TypeScript", "React", "Vite", "CSS"]

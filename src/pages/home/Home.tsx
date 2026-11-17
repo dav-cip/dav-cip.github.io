@@ -1,42 +1,42 @@
 import { Link } from "react-router-dom";
 import usePageTitle from "../../hooks/usePageTitle";
+import { useLanguage } from "../../i18n/LanguageContext";
 import "./Home.css";
 
 export default function Home() {
-    usePageTitle("Home");
-    
+    const { t } = useLanguage();
+    usePageTitle(t("nav.home"));
+
     return (
         <main>
             <section className="home">
                 <div className="home-content">
-                    <p className="welcome">HELLO, I'M</p>
+                    <p className="welcome">{t("home.hello")}</p>
 
                     <h1 className="home-title">
                         Davide<span>.</span>
                     </h1>
 
                     <h2 className="home-subtitle">
-                        Computer Science Student & Developer
+                        {t("home.subtitle")}
                     </h2>
 
                     <p className="description">
-                        I build web applications and software projects,
-                        exploring new technologies and turning ideas
-                        into practical solutions.
+                        {t("home.description")}
                     </p>
 
                     <div className="home-buttons">
                         <Link to="/projects" className="btn-primary home-btn">
-                            View Projects
+                            {t("home.viewProjects")}
                         </Link>
 
                         <Link to="/contact" className="btn-secondary home-btn">
-                            Contact Me
+                            {t("home.contactMe")}
                         </Link>
                     </div>
 
                     <p className="home-note">
-                        BUILDING · LEARNING · CREATING
+                        {t("home.note")}
                     </p>
                 </div>
 

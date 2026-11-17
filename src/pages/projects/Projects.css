@@ -67,11 +67,11 @@
 
 /* Error message */
 .projects-error {
-    color: #dc2626;
+    color: var(--danger);
     text-align: center;
     padding: 20px;
     background: var(--surface);
-    border: 1px solid #dc2626;
+    border: 1px solid var(--danger);
     border-radius: var(--radius-md);
 }
 

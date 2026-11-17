@@ -1,9 +1,11 @@
+import { useLanguage } from "../../../../i18n/LanguageContext";
 import "./ProjectCard.css";
 
 interface ProjectProps {
     title: string;
     image: string;
-    description: string;
+    description?: string;
+    descriptionFr?: string;
     tech: string[];
     github: string;
     demo?: string;
@@ -14,23 +16,31 @@ export default function ProjectCard({
     title,
     image,
     description,
+    descriptionFr,
     tech,
     github,
     demo,
     featured
 }: ProjectProps) {
+    const { t, lang } = useLanguage();
+
+    const text =
+        (lang === "fr" ? descriptionFr : undefined) ??
+        description ??
+        t("projects.noDescription");
+
     return (
         <article className={`card project-card ${featured ? "featured" : ""}`}>
             <div className="project-image-container">
                 {featured && (
                     <span className="featured-label">
-                        Featured
+                        {t("projects.featured")}
                     </span>
                 )}
 
                 <img
                     src={image}
-                    alt={`${title} logo`}
+                    alt={t("projects.imageAlt", { title })}
                     className="project-image"
                     loading="lazy"
                 />
@@ -39,9 +49,9 @@ export default function ProjectCard({
             <div className="card-content">
                 <h2>{title}</h2>
 
-                <p>{description}</p>
+                <p>{text}</p>
 
-                <div className="tech-list" role="list" aria-label="Technologies used">
+                <div className="tech-list" role="list" aria-label={t("projects.techLabel")}>
                     {tech.map(technology => (
                         <span key={technology} role="listitem">
                             {technology}
@@ -55,7 +65,7 @@ export default function ProjectCard({
                         target="_blank"
                         rel="noopener noreferrer"
                     >
-                        GitHub
+                        {t("projects.github")}
                     </a>
 
                     {demo && (
@@ -64,7 +74,7 @@ export default function ProjectCard({
                             target="_blank"
                             rel="noopener noreferrer"
                         >
-                            Live Demo
+                            {t("projects.demo")}
                         </a>
                     )}
                 </div>

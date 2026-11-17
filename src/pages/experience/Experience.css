@@ -1,0 +1,161 @@
+.experience {
+    min-height: 100vh;
+    padding: 120px 40px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* Heading */
+.experience h1 {
+    font-size: 55px;
+    font-weight: 800;
+    margin-bottom: 25px;
+    color: var(--text-primary);
+}
+
+.experience h1::after {
+    content: ".";
+    color: var(--accent);
+}
+
+.experience-intro {
+    max-width: 750px;
+    font-size: 19px;
+    line-height: 1.8;
+    color: var(--text-secondary);
+}
+
+/* Sections */
+.experience-section {
+    margin-top: 55px;
+}
+
+.experience-section h2 {
+    font-size: 26px;
+    margin-bottom: 20px;
+    color: var(--text-primary);
+}
+
+.experience-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Entries */
+.experience-entry {
+    padding: 28px 30px;
+}
+
+.experience-entry-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 6px 16px;
+}
+
+.experience-entry h3 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.experience-period {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--accent);
+    background: var(--chip-bg);
+    border: 1px solid var(--chip-border);
+    border-radius: var(--radius-sm);
+    padding: 4px 12px;
+    white-space: nowrap;
+}
+
+.experience-org {
+    margin-top: 6px;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.experience-details {
+    margin-top: 4px;
+    font-size: 14px;
+    color: var(--text-light);
+}
+
+.experience-entry ul {
+    margin: 16px 0 0;
+    padding-left: 20px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+}
+
+.experience-entry li + li {
+    margin-top: 6px;
+}
+
+.experience-link {
+    display: inline-block;
+    margin-top: 16px;
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+}
+
+.experience-link:hover {
+    color: var(--accent-hover);
+    text-decoration: underline;
+}
+
+/* "Contact me for my CV" note */
+.experience-cta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 20px;
+    padding: 22px 30px;
+}
+
+.experience-cta p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 16px;
+}
+
+/* Languages */
+.experience-languages {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.experience-languages li {
+    background: var(--chip-bg);
+    color: var(--accent);
+    border: 1px solid var(--chip-border);
+    border-radius: var(--radius-sm);
+    padding: 9px 15px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    .experience {
+        padding: 100px 20px;
+    }
+
+    .experience h1 {
+        font-size: 42px;
+    }
+
+    .experience-entry {
+        padding: 22px 20px;
+    }
+}

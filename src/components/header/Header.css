@@ -4,7 +4,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    background: rgba(255, 255, 255, 0.85);
+    background: var(--header-bg);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--border);
@@ -85,28 +85,36 @@
 .header-actions {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 10px;
 }
 
-/* Resume button */
-.resume-btn {
-    cursor: not-allowed;
-    pointer-events: none;
-    background: var(--disabled);
-    text-decoration: none;
-    color: #ffffff;
-    padding: 10px 22px;
+/* Language and theme toggle buttons */
+.header-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    height: 40px;
+    padding: 0 10px;
+    background: transparent;
+    color: var(--text-primary);
+    border: 1px solid var(--border);
     border-radius: var(--radius-sm);
-    font-weight: 600;
-    font-size: 15px;
-    transition: all var(--transition);
-    box-shadow: var(--shadow-sm);
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: border-color var(--transition), color var(--transition);
 }
 
-.resume-btn:hover {
-    background: var(--accent-hover);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
+.header-toggle:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.header-toggle svg {
+    width: 20px;
+    height: 20px;
 }
 
 /* Hamburger button */
@@ -148,11 +156,6 @@
 
     .logo {
         font-size: 24px;
-    }
-
-    .resume-btn {
-        padding: 8px 16px;
-        font-size: 14px;
     }
 
     /* Show hamburger */

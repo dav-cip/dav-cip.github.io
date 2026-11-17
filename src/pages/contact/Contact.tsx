@@ -1,20 +1,19 @@
 import { SITE } from "../../config/site";
 import usePageTitle from "../../hooks/usePageTitle";
+import { useLanguage } from "../../i18n/LanguageContext";
 import './Contact.css';
 
 export default function Contact() {
-    usePageTitle(
-        "Contact",
-        "Get in touch with Davide Cipolla by email, GitHub, or LinkedIn."
-    );
-    
+    const { t } = useLanguage();
+    usePageTitle(t("nav.contact"), t("contact.metaDescription"));
+
     return (
         <main>
             <section className="contact">
-                <h1 className="contact-heading">Contact</h1>
+                <h1 className="contact-heading">{t("contact.heading")}</h1>
 
                 <p className="contact-desc">
-                    Interested in working together? Feel free to reach out.
+                    {t("contact.description")}
                 </p>
 
                 <div className="contact-links">
@@ -22,8 +21,8 @@ export default function Contact() {
                         href="mailto:cipolla.dav@gmail.com"
                         className="contact-card card"
                     >
-                        <span className="contact-label">Email</span>
-                        <span className="contact-action">Send a message &rarr;</span>
+                        <span className="contact-label">{t("contact.email")}</span>
+                        <span className="contact-action">{t("contact.sendMessage")} &rarr;</span>
                     </a>
 
                     <a
@@ -32,8 +31,8 @@ export default function Contact() {
                         rel="noopener noreferrer"
                         className="contact-card card"
                     >
-                        <span className="contact-label">GitHub</span>
-                        <span className="contact-action">View projects &rarr;</span>
+                        <span className="contact-label">{t("contact.github")}</span>
+                        <span className="contact-action">{t("contact.viewProjects")} &rarr;</span>
                     </a>
 
                     <a
@@ -42,8 +41,8 @@ export default function Contact() {
                         rel="noopener noreferrer"
                         className="contact-card card"
                     >
-                        <span className="contact-label">LinkedIn</span>
-                        <span className="contact-action">Connect &rarr;</span>
+                        <span className="contact-label">{t("contact.linkedin")}</span>
+                        <span className="contact-action">{t("contact.connect")} &rarr;</span>
                     </a>
                 </div>
 
