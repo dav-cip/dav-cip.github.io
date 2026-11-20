@@ -15,6 +15,7 @@ export const en = {
     "nav.home": "Home",
     "nav.about": "About",
     "nav.experience": "Experience",
+    "nav.certificates": "Certificates",
     "nav.projects": "Projects",
     "nav.contact": "Contact",
     "nav.main": "Main navigation",
@@ -62,6 +63,16 @@ export const en = {
     "about.skill.calm": "Calm under pressure",
     "about.skill.problemSolving": "Methodical problem-solving",
     "about.skill.quickLearner": "Quick learner",
+
+    // Certificates
+    "certificates.metaDescription":
+        "Certificates and credentials earned by Davide Cipolla, a Computer Science Technology student in Montréal.",
+    "certificates.heading": "Certificates",
+    "certificates.intro":
+        "Courses and credentials I've completed while learning and growing as a developer.",
+    "certificates.empty": "Certificates will be added here soon.",
+    "certificates.view": "View credential",
+    "certificates.imageAlt": "Certificate: {name}",
 
     // Experience
     "experience.metaDescription":
@@ -160,6 +171,7 @@ export const fr: Translations = {
     "nav.home": "Accueil",
     "nav.about": "À propos",
     "nav.experience": "Expérience",
+    "nav.certificates": "Certificats",
     "nav.projects": "Projets",
     "nav.contact": "Contact",
     "nav.main": "Navigation principale",
@@ -208,6 +220,16 @@ export const fr: Translations = {
     "about.skill.calm": "Calme sous pression",
     "about.skill.problemSolving": "Résolution de problèmes méthodique",
     "about.skill.quickLearner": "Apprentissage rapide",
+
+    // Certificates
+    "certificates.metaDescription":
+        "Certificats et attestations obtenus par Davide Cipolla, étudiant en Technique de l'informatique à Montréal.",
+    "certificates.heading": "Certificats",
+    "certificates.intro":
+        "Les cours et attestations que j'ai complétés au fil de mon parcours de développeur.",
+    "certificates.empty": "Des certificats seront ajoutés ici bientôt.",
+    "certificates.view": "Voir l'attestation",
+    "certificates.imageAlt": "Certificat : {name}",
 
     // Experience
     "experience.metaDescription":

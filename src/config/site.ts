@@ -10,5 +10,5 @@ export const SITE = {
     url: "https://dav-cip.github.io",
     githubUser: "dav-cip",
     // Public routes, listed in the generated sitemap ("" is the home page).
-    routes: ["", "about", "experience", "projects", "contact"],
+    routes: ["", "about", "experience", "certificates", "projects", "contact"],
 } as const;
